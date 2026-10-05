@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sophia — Creative Web Designer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            DEFAULT: 'var(--accent-color, #FF4B4B)',
+                            hover: 'var(--accent-hover, #E03E3E)',
+                            glow: 'var(--accent-glow, rgba(255, 75, 75, 0.35))',
+                        },
+                        dark: {
+                            bg: '#121216',
+                            card: '#1B1B22',
+                            nav: '#22222B',
+                            border: '#2E2E3A',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 7s ease-in-out 2s infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(3deg)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.7', transform: 'scale(1.08)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --accent-color: #FF4B4B;
+            --accent-hover: #E03333;
+            --accent-glow: rgba(255, 75, 75, 0.4);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121216;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .accent-text {
+            color: var(--accent-color);
+        }
+
+        .accent-bg {
+            background-color: var(--accent-color);
+        }
+
+        .accent-bg:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .accent-border {
+            border-color: var(--accent-color);
+        }
+
+        .accent-glow-box {
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(27, 27, 34, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121216;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2E2E3A;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-red-500 selection:text-white">
+
+    <!-- Top Bar & Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-4 px-4 sm:px-8 bg-opacity-90 backdrop-blur-md bg-[#121216]">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="group flex items-center space-x-2 text-2xl font-black tracking-wider">
+                <span class="text-white transition-colors duration-300">SOPHIA</span>
+                <span class="inline-block w-2.5 h-2.5 rounded-full accent-bg transition-transform duration-300 group-hover:scale-150"></span>
+            </a>
+
+            <!-- Floating Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 glass-card px-4 py-2 rounded-full shadow-2xl border border-white/10">
+                <a href="#home" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-white transition-all duration-300 accent-bg shadow-sm">Home</a>
+                <a href="#about" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300">About</a>
+                <a href="#services" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300">Services</a>
+                <a href="#projects" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300">Projects</a>
+            </nav>
+
+            <!-- Actions Right (Color Switcher + Contact CTA) -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <!-- Dynamic Color Theme Selector Dropdown -->
+                <div class="relative">
+                    <button id="themeMenuBtn" title="Change Accent Color" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-palette text-sm"></i>
+                    </button>
+                    <div id="themeMenu" class="hidden absolute right-0 mt-3 w-40 glass-card rounded-2xl shadow-2xl p-2 z-50 border border-white/10 space-y-1">
+                        <p class="text-[10px] uppercase font-bold text-gray-400 px-3 py-1">Accent Color</p>
+                        <button onclick="setAccent('#FF4B4B', '#E03333', 'rgba(255, 75, 75, 0.4)')" class="w-full flex items-center space-x-3 px-3 py-1.5 text-xs text-gray-200 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#FF4B4B]"></span>
+                            <span>Sunset Red</span>
+                        </button>
+                        <button onclick="setAccent('#A855F7', '#9333EA', 'rgba(168, 85, 247, 0.4)')" class="w-full flex items-center space-x-3 px-3 py-1.5 text-xs text-gray-200 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#A855F7]"></span>
+                            <span>Neon Violet</span>
+                        </button>
+                        <button onclick="setAccent('#06B6D4', '#0891B2', 'rgba(6, 182, 212, 0.4)')" class="w-full flex items-center space-x-3 px-3 py-1.5 text-xs text-gray-200 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#06B6D4]"></span>
+                            <span>Cyan Pulse</span>
+                        </button>
+                        <button onclick="setAccent('#10B981', '#059669', 'rgba(16, 185, 129, 0.4)')" class="w-full flex items-center space-x-3 px-3 py-1.5 text-xs text-gray-200 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#10B981]"></span>
+                            <span>Emerald</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contact Button -->
+                <button onclick="openModal('contactModal')" class="accent-bg text-white px-5 sm:px-6 py-2.5 rounded-full font-semibold text-xs sm:text-sm tracking-wide transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 accent-glow-box">
+                    Contact
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-300">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden md:hidden max-w-7xl mx-auto mt-3 glass-card rounded-2xl p-4 flex flex-col space-y-2 border border-white/10">
+            <a href="#home" class="mobile-nav-item px-4 py-2 rounded-xl text-sm font-medium accent-bg text-white">Home</a>
+            <a href="#about" class="mobile-nav-item px-4 py-2 rounded-xl text-sm font-medium text-gray-300 hover:bg-white/5">About</a>
+            <a href="#services" class="mobile-nav-item px-4 py-2 rounded-xl text-sm font-medium text-gray-300 hover:bg-white/5">Services</a>
+            <a href="#projects" class="mobile-nav-item px-4 py-2 rounded-xl text-sm font-medium text-gray-300 hover:bg-white/5">Projects</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 px-4 sm:px-8 max-w-7xl mx-auto min-h-screen flex items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
+            
+            <!-- Left Hero Content -->
+            <div class="lg:col-span-7 space-y-8 text-center lg:text-left z-10">
+                <!-- Tagline -->
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-card border border-white/10">
+                    <span class="w-2 h-2 rounded-full accent-bg animate-pulse"></span>
+                    <span class="accent-text text-xs sm:text-sm font-bold tracking-widest uppercase">HI, I'M SOPHIA</span>
+                </div>
+
+                <!-- Title Header -->
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-none">
+                    Web Designer
+                </h1>
+
+                <!-- Bio Paragraph -->
+                <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                    A passionate web designer crafting immersive digital experiences, high-converting interfaces, and sleek interactive brand architectures.
+                </p>
+
+                <!-- Action CTA Buttons -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <button onclick="openModal('contactModal')" class="accent-bg text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide transition-all duration-300 transform hover:-translate-y-1 accent-glow-box flex items-center space-x-2">
+                        <span>Hire me</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                    <button onclick="openModal('resumeModal')" class="border-2 border-gray-700 hover:border-gray-400 text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide transition-all duration-300 hover:bg-white/5 flex items-center space-x-2">
+                        <i class="fa-solid fa-file-arrow-down text-xs"></i>
+                        <span>Resume</span>
+                    </button>
+                </div>
+
+                <!-- Social Proof Links -->
+                <div class="pt-6 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <span class="text-xs uppercase font-semibold text-gray-500 tracking-wider">Find me on</span>
+                    <div class="flex items-center space-x-3">
+                        <a href="#" title="Behance" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white hover:border-white/30 transition-all duration-300 transform hover:scale-110">
+                            <i class="fa-brands fa-behance"></i>
+                        </a>
+                        <a href="#" title="Pinterest" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white hover:border-white/30 transition-all duration-300 transform hover:scale-110">
+                            <i class="fa-brands fa-pinterest-p"></i>
+                        </a>
+                        <a href="#" title="LinkedIn" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white hover:border-white/30 transition-all duration-300 transform hover:scale-110">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" title="Instagram" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white hover:border-white/30 transition-all duration-300 transform hover:scale-110">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Hero Section Graphic Showcase Card -->
+            <div class="lg:col-span-5 relative flex justify-center items-center">
+                
+                <!-- Ambient Glowing Backdrop Shapes -->
+                <div class="absolute -top-10 -left-10 w-72 h-72 rounded-full accent-bg opacity-20 filter blur-[90px] animate-pulse-glow"></div>
+                <div class="absolute -bottom-10 -right-10 w-64 h-64 rounded-full bg-indigo-600 opacity-20 filter blur-[80px] animate-pulse-glow"></div>
+
+                <!-- Main Designer Graphic Frame Card -->
+                <div class="relative w-full max-w-md rounded-3xl p-4 glass-card shadow-2xl border border-white/10 group overflow-hidden">
+                    
+                    <!-- Inner Visual Showcase Graphic Container -->
+                    <div class="relative rounded-2xl bg-gradient-to-b from-[#2A1B28] via-[#1B1B22] to-[#121216] p-6 overflow-hidden flex flex-col items-center justify-center min-h-[420px]">
+                        
+                        <!-- Decorative Abstract Background Circles -->
+                        <div class="absolute inset-0 opacity-15 flex items-center justify-center">
+                            <div class="w-80 h-80 border-2 border-dashed border-white rounded-full animate-spin" style="animation-duration: 25s;"></div>
+                            <div class="absolute w-60 h-60 border border-white/40 rounded-full"></div>
+                        </div>
+
+                        <!-- Illustrated Avatar Representation -->
+                        <div class="relative z-10 animate-float flex flex-col items-center">
+                            <!-- SVG Stylized Girl Web Designer Avatar with Red Beanie & Sunglasses -->
+                            <svg class="w-56 h-56 drop-shadow-2xl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Background Aura Circle -->
+                                <circle cx="100" cy="100" r="75" fill="var(--accent-color)" fill-opacity="0.2"/>
+                                
+                                <!-- Girl Shoulders & Outfit -->
+                                <path d="M45 180 C45 135, 70 125, 100 125 C130 125, 155 135, 155 180 Z" fill="#1E1E26"/>
+                                <path d="M75 125 L125 125 L115 155 L85 155 Z" fill="#2D2B38"/>
+                                <path d="M85 130 L115 130 L100 160 Z" fill="var(--accent-color)"/>
+
+                                <!-- Neck & Head -->
+                                <rect x="90" y="110" width="20" height="20" rx="4" fill="#F3A992"/>
+                                <ellipse cx="100" cy="85" rx="32" ry="36" fill="#F3A992"/>
+
+                                <!-- Cool Glasses -->
+                                <rect x="73" y="75" width="24" height="16" rx="4" fill="#121216"/>
+                                <rect x="103" y="75" width="24" height="16" rx="4" fill="#121216"/>
+                                <line x1="97" y1="83" x2="103" y2="83" stroke="#121216" stroke-width="3"/>
+                                <!-- Glare lines on glasses -->
+                                <line x1="77" y1="78" x2="85" y2="88" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                                <line x1="107" y1="78" x2="115" y2="88" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+
+                                <!-- Cute Smile -->
+                                <path d="M92 104 Q100 110 108 104" stroke="#C46D56" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+                                <!-- Hair braids/hair -->
+                                <path d="M68 75 C60 90, 58 120, 62 145" stroke="#4A1825" stroke-width="12" stroke-linecap="round"/>
+                                <path d="M132 75 C140 90, 142 120, 138 145" stroke="#4A1825" stroke-width="12" stroke-linecap="round"/>
+
+                                <!-- Red Stylish Beanie Cap -->
+                                <path d="M65 80 C65 50, 135 50, 135 80 Z" fill="var(--accent-color)"/>
+                                <rect x="62" y="73" width="76" height="12" rx="6" fill="#D63030"/>
+                                <circle cx="100" cy="40" r="10" fill="var(--accent-color)"/>
+                            </svg>
+
+                            <!-- Floating Badge Pill -->
+                            <div class="mt-4 px-4 py-2 rounded-xl glass-card border border-white/10 flex items-center space-x-2 shadow-xl">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                <span class="text-xs font-semibold text-gray-200">Available for Freelance Projects</span>
+                            </div>
+                        </div>
+
+                        <!-- Floating Micro Interactive Floating Cards -->
+                        <div class="absolute top-4 left-4 glass-card px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-medium text-gray-300 flex items-center space-x-2 shadow-lg animate-float">
+                            <i class="fa-solid fa-paintbrush accent-text"></i>
+                            <span>UI/UX Design</span>
+                        </div>
+                        <div class="absolute bottom-4 right-4 glass-card px-3 py-1.5 rounded-xl border border-white/10 text-[11px] font-medium text-gray-300 flex items-center space-x-2 shadow-lg animate-float-delayed">
+                            <i class="fa-solid fa-code text-cyan-400"></i>
+                            <span>Clean Code</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto border-t border-gray-800/60">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="accent-text text-xs font-bold uppercase tracking-widest">What I Do</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Specialized Design Services</h2>
+            <p class="text-gray-400 text-sm mt-3">Delivering tailored digital solutions with aesthetic elegance and responsive performance.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Service 1 -->
+            <div class="glass-card rounded-3xl p-8 hover:border-gray-500 transition-all duration-300 transform hover:-translate-y-2 group">
+                <div class="w-14 h-14 rounded-2xl accent-bg/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-laptop-code text-2xl accent-text"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Web Architecture</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Designing fluid, responsive web platforms built from ground up focusing on visual appeal and performance.</p>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="glass-card rounded-3xl p-8 hover:border-gray-500 transition-all duration-300 transform hover:-translate-y-2 group">
+                <div class="w-14 h-14 rounded-2xl accent-bg/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-layer-group text-2xl accent-text"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">UI/UX Product Design</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Prototyping intuitive user journeys, wireframes, and high-fidelity interfaces that convert visitors.</p>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="glass-card rounded-3xl p-8 hover:border-gray-500 transition-all duration-300 transform hover:-translate-y-2 group">
+                <div class="w-14 h-14 rounded-2xl accent-bg/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-wand-magic-sparkles text-2xl accent-text"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Brand Identity</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Crafting distinct visual language systems, color palettes, custom illustrations, and brand assets.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Projects Section -->
+    <section id="projects" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto border-t border-gray-800/60">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <span class="accent-text text-xs font-bold uppercase tracking-widest">Selected Works</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Featured Portfolio Projects</h2>
+            </div>
+            
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterProjects('all')" class="project-filter active px-4 py-1.5 rounded-full text-xs font-semibold accent-bg text-white transition-all">All Works</button>
+                <button onclick="filterProjects('web')" class="project-filter px-4 py-1.5 rounded-full text-xs font-semibold glass-card text-gray-400 hover:text-white transition-all">Web Design</button>
+                <button onclick="filterProjects('app')" class="project-filter px-4 py-1.5 rounded-full text-xs font-semibold glass-card text-gray-400 hover:text-white transition-all">App UI</button>
+            </div>
+        </div>
+
+        <!-- Project Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="project-card web glass-card rounded-3xl overflow-hidden group border border-white/10">
+                <div class="relative overflow-hidden h-52 bg-gradient-to-br from-purple-900/40 to-slate-900 flex items-center justify-center">
+                    <i class="fa-solid fa-bag-shopping text-6xl text-purple-400/50 group-hover:scale-125 transition-transform duration-500"></i>
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
+                        <button onclick="alert('Opening live preview demo for Luxe Fashion Store')" class="w-10 h-10 rounded-full accent-bg text-white flex items-center justify-center">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <span class="text-[11px] font-bold uppercase tracking-wider accent-text">E-Commerce</span>
+                    <h3 class="text-lg font-bold text-white mt-1">Luxe Fashion Store</h3>
+                    <p class="text-gray-400 text-xs mt-2">Modern minimal online storefront with smooth checkout flow.</p>
+                </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="project-card app glass-card rounded-3xl overflow-hidden group border border-white/10">
+                <div class="relative overflow-hidden h-52 bg-gradient-to-br from-cyan-900/40 to-slate-900 flex items-center justify-center">
+                    <i class="fa-solid fa-chart-line text-6xl text-cyan-400/50 group-hover:scale-125 transition-transform duration-500"></i>
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
+                        <button onclick="alert('Opening live preview demo for FinTech Dashboard')" class="w-10 h-10 rounded-full accent-bg text-white flex items-center justify-center">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <span class="text-[11px] font-bold uppercase tracking-wider accent-text">SaaS Platform</span>
+                    <h3 class="text-lg font-bold text-white mt-1">FinTech Analytics App</h3>
+                    <p class="text-gray-400 text-xs mt-2">Real-time data visualization dashboard for financial portfolios.</p>
+                </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="project-card web glass-card rounded-3xl overflow-hidden group border border-white/10">
+                <div class="relative overflow-hidden h-52 bg-gradient-to-br from-rose-900/40 to-slate-900 flex items-center justify-center">
+                    <i class="fa-solid fa-utensils text-6xl text-rose-400/50 group-hover:scale-125 transition-transform duration-500"></i>
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
+                        <button onclick="alert('Opening live preview demo for Culinary Branding')" class="w-10 h-10 rounded-full accent-bg text-white flex items-center justify-center">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <span class="text-[11px] font-bold uppercase tracking-wider accent-text">Branding</span>
+                    <h3 class="text-lg font-bold text-white mt-1">Gourmet Dining Experience</h3>
+                    <p class="text-gray-400 text-xs mt-2">Immersive reservation and story website for upscale restaurant.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 sm:px-8 border-t border-gray-800/80 bg-[#0E0E12]">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+            <p>© 2026 Sophia Portfolio. Designed with passion.</p>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#home" class="accent-text font-bold hover:underline">Back to top ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hire Me / Contact Form Modal -->
+    <div id="contactModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="glass-card max-w-lg w-full rounded-3xl p-6 sm:p-8 relative border border-white/10 shadow-2xl animate-fade-in">
+            <button onclick="closeModal('contactModal')" class="absolute top-5 right-5 text-gray-400 hover:text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <span class="accent-text text-xs font-bold uppercase tracking-wider">Get in Touch</span>
+            <h3 class="text-2xl font-bold text-white mt-1 mb-6">Let's work together</h3>
+
+            <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">YOUR NAME</label>
+                    <input type="text" required placeholder="Alex Morgan" class="w-full bg-black/40 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">EMAIL ADDRESS</label>
+                    <input type="email" required placeholder="alex@example.com" class="w-full bg-black/40 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">PROJECT DETAILS</label>
+                    <textarea rows="4" required placeholder="Tell me about your website vision, timeline, and goals..." class="w-full bg-black/40 border border-gray-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full accent-bg text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 accent-glow-box">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Resume Preview Modal -->
+    <div id="resumeModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 sm:p-8 relative border border-white/10 shadow-2xl">
+            <button onclick="closeModal('resumeModal')" class="absolute top-5 right-5 text-gray-400 hover:text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <span class="accent-text text-xs font-bold uppercase tracking-wider">Curriculum Vitae</span>
+            <h3 class="text-2xl font-bold text-white mt-1 mb-4">Sophia's Resume Summary</h3>
+
+            <div class="space-y-4 my-6 text-sm text-gray-300 border-y border-gray-800/80 py-4 max-h-60 overflow-y-auto pr-2">
+                <div>
+                    <h4 class="font-bold text-white">Senior Web Designer & Developer</h4>
+                    <p class="text-xs text-gray-400">Creative Studio • 2022 - Present</p>
+                    <p class="text-xs mt-1 text-gray-400">Leading UI/UX architecture and web front-end implementations for global client accounts.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white">UI/UX Designer</h4>
+                    <p class="text-xs text-gray-400">Digital Agency • 2020 - 2022</p>
+                    <p class="text-xs mt-1 text-gray-400">Crafted design systems, wireframes, and high-converting landing pages.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white">Core Competencies</h4>
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        <span class="px-2.5 py-1 bg-white/5 rounded-md text-[11px]">Figma</span>
+                        <span class="px-2.5 py-1 bg-white/5 rounded-md text-[11px]">Tailwind CSS</span>
+                        <span class="px-2.5 py-1 bg-white/5 rounded-md text-[11px]">JavaScript</span>
+                        <span class="px-2.5 py-1 bg-white/5 rounded-md text-[11px]">Responsive Design</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeModal('resumeModal')" class="px-5 py-2.5 rounded-xl text-xs font-semibold text-gray-400 hover:text-white">Close</button>
+                <button onclick="alert('Resume PDF download initiated!')" class="accent-bg text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center space-x-2">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download Full CV</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle mobile menu drawer
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Toggle theme accent menu dropdown
+        const themeMenuBtn = document.getElementById('themeMenuBtn');
+        const themeMenu = document.getElementById('themeMenu');
+
+        themeMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+            if (!themeMenu.classList.contains('hidden')) {
+                themeMenu.classList.add('hidden');
+            }
+        });
+
+        // Set Dynamic Color Theme
+        function setAccent(color, hoverColor, glowColor) {
+            document.documentElement.style.setProperty('--accent-color', color);
+            document.documentElement.style.setProperty('--accent-hover', hoverColor);
+            document.documentElement.style.setProperty('--accent-glow', glowColor);
+            themeMenu.classList.add('hidden');
+        }
+
+        // Modal Handler Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Handle Contact Form Submission
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert("Thank you! Your message has been sent to Sophia. We will get back to you shortly.");
+            closeModal('contactModal');
+            document.getElementById('contactForm').reset();
+        }
+
+        // Filter Portfolio Projects
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.project-filter');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('accent-bg', 'text-white');
+                btn.classList.add('glass-card', 'text-gray-400');
+            });
+
+            event.target.classList.remove('glass-card', 'text-gray-400');
+            event.target.classList.add('accent-bg', 'text-white');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+```
